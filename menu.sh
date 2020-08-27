@@ -21,7 +21,9 @@ a="Abrir Puerto"
 b="Cerrar Puerto"
 c="Escanear Puerto"
 d="borrar all rules"
-e="Salir"
+e="Ver Reglas"
+f="IP forwarding"
+g="Salir"
 
 
 #entradas puertos
@@ -93,7 +95,7 @@ PS3="Selecciona una Opcion: "
 
 #menu principal
 
-select menu in "$a" "$b" "$c" "$d" "$e";
+select menu in "$a" "$b" "$c" "$d" "$e" "$f" "$g";
 do
 case $menu in
 $a)
@@ -389,14 +391,55 @@ echo -e "$green(saliendo del script)$nc"
 exit
 ;;
 $e)
-echo -e "$red(Saliendo Del script) en 3"
+
+echo -e "$red(*)$green Mostraremos todas las reglas existentes en 5 segundos"
 sleep 1
-echo "2"
+echo "4 segundos"
 sleep 1
-echo "1"
-echo -e "$green(Saliendo del script)"
-echo -e "Gracias por utilizarlo by facu salgado$nc"
-break
+echo "3 segundos"
+sleep 1
+echo "2 segundos"
+sleep 1
+echo -e "1 segundo$nc"
+iptables -L
+sleep 2
+echo -e "$red(*)$green Reglas mostradas correctamente.. saliendo$nc"
+exit
+;;
+$f)
+
+printf "\e[1;32mIngresa el puerto TCP local (ejemplo 80):\e[1;35m "
+read tcplocal
+echo -e "$nc($red*$nc)$green Elegiste el puerto local numero:$red $tcplocal $green Aguarde por favor.."
+sleep 2
+printf "\e[1;32mIngresa el puerto destino(ejemplo 443):\e[1;35m "
+read tcpdestino
+echo -e "$nc($red*$nc)$green Elegiste el puerto destino numero:$red $tcpdestino $green Aguarde por favor.."
+sleep 2
+printf "\e[1;32mIngresa la ip destino ejemplo: (127.0.0.1)\e[1;35m "
+read ipdestino
+echo -e "$nc($red*$nc)$green Elegiste la ip destino numero:$red $ipdestino $green Aguarde por favor.."
+sleep 3
+echo -e "$nc($red*$nc)$green El puerto local:$red $tcplocal $green Sera redirigido a la IP$red $ipdestino $green(en el puerto $red $tcpdestino $nc"
+sleep 2
+echo -e "$nc($red*$nc)$green Habilitando IP Forwarding$nc"
+sleep 2
+sysctl net.ipv4.ip_forward=1
+iptables -A FORWARD -d localhost -i eth0 -p tcp -m tcp --dport $tcplocal -j ACCEPT
+iptables -t nat -A PREROUTING -d localhost -p tcp -m tcp --dport $tcplocal -j DNAT --to-destination $ipdestino:$tcpdestino
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+echo -e "$green(Regla aplicada correctamente) mostrando regla en 3 segundos..$nc"
+sleep 3
+iptables -L
+echo -e "$nc($red*$nc)$green Saliendo del script..$nc"
+sleep 2
+exit
+;;
+
+$g)
+echo -e "$nc($red*$nc)$green Saliendo del script en 3 segundos..$nc"
+sleep 3
+exit
 ;;
 *)
 echo "opcion invalida"
