@@ -118,6 +118,7 @@ case $protocol in
 $tcp)
 echo -e "$blue"
 echo -e "Ingresa el puerto a abrir:$blue "
+read opentcp 
 
 echo
 echo -e "$yellow"
@@ -403,5 +404,3 @@ echo "opcion invalida"
 esac
 done
 #fin menu principal
-
-
