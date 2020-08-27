@@ -12,6 +12,7 @@ printf "\e[1;32minstalaremos nmap e iptables para que pueda ejecutar el script\n
 sleep 3
 apt-get install nmap -y
 apt-get install iptables -y
+apt-get install toilet -y
 clear
 printf "\e[1;32mPrograma instalado, ejecutaremos el script\n"
 sleep 5
