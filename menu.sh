@@ -34,6 +34,17 @@ salida="OUTPUT"
 tcp="TCP"
 udp="UDP"
 
+
+#root privilegies
+if [[ $EUID -ne 0 ]]; then	
+echo "														         "
+echo "(✗) No eres usuario root, para ejecutar la heramienta tienes que ejecutarla siendo root (✗)      "				  
+echo "(✗) You are not a root user, to run the tool you have to run it as root (✗)              "		
+exit 1
+fi
+
+
+
 if which toilet >/dev/null; then
 sleep 1
 echo -e "$blue(Toilet)$nc ................................................... Instalado [$green✓$nc]"
@@ -150,6 +161,11 @@ done
 ;;
 $salida)
 
+echo -e 
+echo -e "$blue"
+echo -e "elige el protocolo $green"
+echo
+echo
 select protocol in "$tcp" "$udp"
 do
 case $protocol in
@@ -272,6 +288,11 @@ done
 ;;
 $salida)
 
+echo -e 
+echo -e "$blue"
+echo -e "elige el protocolo $green"
+echo
+echo
 select protocol in "$tcp" "$udp"
 do
 case $protocol in
@@ -382,4 +403,5 @@ echo "opcion invalida"
 esac
 done
 #fin menu principal
+
 
