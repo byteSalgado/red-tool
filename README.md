@@ -7,10 +7,11 @@ El script trabaja con nmap e iptables, especificamente en sistemas DEBIAN trae a
 ya que no permite el adecuado renicio del servicio por lo tanto en estos casos deberan reniciar su maquina 
 para que haga efecto el cierre o open del puerto.
 
-# Bugs: 
+# Dependencias: 
 
-el unico bug que descubri hasta la fecha es reniciar iptables en sistemas
-debian, pero en sistemas CentOs este fallo no ocurre.
+* Nmap
+* iptables
+* Toilet
 
 # Instalacion: 
 
